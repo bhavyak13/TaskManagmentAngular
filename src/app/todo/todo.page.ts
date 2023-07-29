@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { addTodo, removeTodo, loadTodos, changeStatusTodo } from '../state/todos/todo.actions';
-import { selectAllTodos } from '../state/todos/todo.selectors';
+import { addTodo, removeTodo, loadTodos, changeStatusTodo, changeNavStatusTodo } from '../state/todos/todo.actions';
+import { navStatus, selectAllTodos, filteredTodos } from '../state/todos/todo.selectors';
 import { Todo } from './todo.model';
 import { saveAs } from 'file-saver'
 
@@ -15,6 +15,9 @@ export class TodoPage implements OnInit {
 
   // variables..
   public allTodos$ = this.store.select(selectAllTodos);
+  public NavStatus$ = this.store.select(navStatus);
+  public filteredTodos$ = this.store.select(filteredTodos);
+
   obj: Todo = {
     title: '',
     description: '',
@@ -22,7 +25,7 @@ export class TodoPage implements OnInit {
     priorityLevel: 'low',
   };
   public showSystem: boolean = false;
-  public activeNavBtn: string = 'all';
+  // public activeNavBtn: string = 'all';
   public statusArr: string[] = ['todo', 'pending', 'completed'];
   public statusArrNav: string[] = ['all', 'todo', 'pending', 'completed'];
   constructor(private store: Store) { }
@@ -79,15 +82,8 @@ export class TodoPage implements OnInit {
   }
 
   changeNavStatus(status: string) {
-    this.activeNavBtn = status;
-    // let data: any;
-    // this.allTodos$.forEach(e => {
-    //   data = e;
-    // })
-    // this.tempArr = [];
-    // data.map(e => {
-    //   if (e.status == status || status=='all') this.tempArr.push(e)
-    // })
+    // this.activeNavBtn = status;
+    this.store.dispatch(changeNavStatusTodo({ status }));
   }
 
 

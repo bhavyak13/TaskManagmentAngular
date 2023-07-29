@@ -3,6 +3,7 @@ import {
   addTodo,
   removeTodo,
   changeStatusTodo,
+  changeNavStatusTodo,
   loadTodos,
   loadTodosSuccess,
   loadTodosFailure,
@@ -13,6 +14,8 @@ export interface TodoState {
   todos: Todo[];
   error: string;
   status: string;
+  navStatus: string;
+  filteredTodos: Todo[];
   // status: 'pending' | 'loading' | 'error' | 'success';
 }
 
@@ -20,6 +23,8 @@ export const initialState: TodoState = {
   todos: [],
   error: null,
   status: 'pending',
+  navStatus: 'all',
+  filteredTodos: []
 };
 
 export const todoReducer = createReducer(
@@ -37,12 +42,28 @@ export const todoReducer = createReducer(
       priorityLevel,
       status: 'todo',
     }],
+    filteredTodos: [...state.todos,
+    {
+      id: Date.now().toString(),
+      title,
+      description,
+      dueDate,
+      priorityLevel,
+      status: 'todo',
+    }].filter((todo) => (todo.status == state.navStatus || (state.navStatus == 'all'))),
   })),
   // Remove the todo from the todos array
   on(removeTodo, (state, { id }) => ({
     ...state,
     todos: state.todos.filter((todo) => todo.id !== id),
   })),
+
+  on(changeNavStatusTodo, (state, { status }) => ({
+    ...state,
+    navStatus: status,
+    filteredTodos: state.todos.filter((todo) => (todo.status == status || (status == 'all'))),
+  })),
+
 
   on(changeStatusTodo, (state, { id, status }) => ({
     ...state,
@@ -61,6 +82,7 @@ export const todoReducer = createReducer(
         return t;
       } else return todo;
     }),
+    filteredTodos: state.todos.filter((todo) => (todo.status == status || (status == 'all'))),
   })),
 
   // Trigger loading the todos
@@ -71,6 +93,7 @@ export const todoReducer = createReducer(
     todos: todos,
     error: null,
     status: 'success',
+    filteredTodos: todos.filter((todo) => (todo.status == state.navStatus || (state.navStatus == 'all'))),
   })),
   // Handle todos load failure
   on(loadTodosFailure, (state, { error }) => ({

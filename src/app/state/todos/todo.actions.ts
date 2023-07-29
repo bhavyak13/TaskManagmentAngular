@@ -20,6 +20,12 @@ export const changeStatusTodo = createAction(
   props<{ id: string, status: string }>()
 );
 
+export const changeNavStatusTodo = createAction(
+  '[Todo Page] Change Nav Status Todo',
+  props<{ status: string }>()
+);
+
+
 export const loadTodos = createAction('[Todo Page] Load Todos');
 
 export const loadTodosSuccess = createAction(
