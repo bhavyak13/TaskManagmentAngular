@@ -1,39 +1,61 @@
-<div class="rott_">
-
+<div class="rott_ work_container">
   <div class="container">
-    <h2>Work Board</h2>
-    <div>Title</div>
-    <input [(ngModel)]="obj.title" />
-    <div>Description</div>
-    <input [(ngModel)]="obj.description" />
-    <div>Date</div>
-    <input type="date" [(ngModel)]="obj.dueDate" />
-    <div>Priority Level</div>
-    <select name="singleSelect" id="singleSelect" [(ngModel)]="obj.priorityLevel">
-      <option value="low" selected>low</option>
-      <option value="mid">mid</option>
-      <option value="high">high</option>
-    </select>
-    <ion-button color="success" fill="outline" (click)="addTodo()">Add Task</ion-button>
+    <div class="header">
+      <h2>Work Board</h2>
+      <ion-button color="success" fill="outline" (click)="addTodo()" class="submit">Export</ion-button>
+    </div>
 
-  </div>
+    <!-- form -->
+    <div class="form_container">
+      <div class="task-head active" (click)="toggleSystem()">
+        <h3>+</h3>
+        <h3>Create New Tasks</h3>
+      </div>
+      <div class="task_form" [ngClass]="showSystem?'active':''">
+        <label for="title">Title</label>
+        <input [(ngModel)]="obj.title" id="title" />
+        <label for="description">Description</label>
+        <input [(ngModel)]="obj.description" id="description" />
+        <label for="date">Date</label>
+        <input type="date" [(ngModel)]="obj.dueDate" id="date" />
+        <label for="priorityLevel">Priority Level</label>
+        <select name="singleSelect" id="singleSelect priorityLevel" [(ngModel)]="obj.priorityLevel">
+          <option value="low" selected>Low</option>
+          <option value="mid">Medium</option>
+          <option value="high">High</option>
+        </select>
+        <ion-button color="success" fill="outline" (click)="addTodo()" class="submit">Add Task</ion-button>
+      </div>
+    </div>
 
 
-  <div class="boxes">
-      <div class="task_" *ngFor="let todo of allTodos$ | async">
-        <div>{{todo.title}}</div>
-        <div>{{todo.description}}</div>
-        <div>{{todo.dueDate}}</div>
-        <div>{{todo.priorityLevel}}</div>
-        <div>{{todo.status}}</div>
-        <div (click)="removeTodo(todo)"> {{'X'}} </div>
-        <div class="status_">
-          <div class="status" *ngFor="let s of statusArr">
-            <div *ngIf="s!=todo.status" (click)="ChangeStatus(todo,s)"> {{s}} </div>
-          </div>
+    <!-- 3forms -->
+    <div class="pills_container">
+      <div class="status__" *ngFor="let st of statusArr">
+        
       </div>
     </div>
 
 
   </div>
+
+
+
+  <div class="task_container">
+    <div class="task_" *ngFor="let todo of allTodos$ | async" [ngClass]="todo.priorityLevel">
+      <div class="task_todo">
+        <div class="title"><span>o</span> {{todo.title}}</div>
+        <div class="date">{{todo.dueDate}}</div>
+      </div>
+      <div>{{todo.description}}</div>
+      <div (click)="removeTodo(todo)" class="close">{{'✖️'}}</div>
+      <div class="status_">
+        <div class="status" *ngFor="let s of statusArr" [ngClass]="todo.status===s?'active-btn':''">
+          <div (click)="ChangeStatus(todo,s)">{{s}}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
 </div>

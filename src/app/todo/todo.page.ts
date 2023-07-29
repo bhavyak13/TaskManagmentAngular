@@ -19,6 +19,10 @@ export class TodoPage implements OnInit {
     dueDate: '',
     priorityLevel: 'low',
   };
+  public showSystem: boolean = false;
+  toggleSystem() {
+    this.showSystem = !this.showSystem;
+  }
   public statusArr: string[] = ['todo', 'pending', 'completed'];
   constructor(private store: Store) { }
   ngOnInit() {
@@ -39,6 +43,7 @@ export class TodoPage implements OnInit {
       dueDate: '',
       priorityLevel: 'low',
     };
+    this.showSystem = false;
   }
   removeTodo(todo: Todo) {
     this.store.dispatch(removeTodo({ id: todo.id }));
@@ -83,9 +88,9 @@ export class TodoPage implements OnInit {
   //   'description'
   // ]
   downloadCsv() {
-    let data:any;
+    let data: any;
     this.allTodos$.forEach(e => {
-      data=e;
+      data = e;
     })
     this.downloadFile(data);
   }
@@ -93,7 +98,7 @@ export class TodoPage implements OnInit {
 }
 
  // <button (click)="downloadCsv()" >click</button>
-  // 
+  //
 
 
  // this.allTodos$.map((t: Todo[])=>{
