@@ -2,7 +2,7 @@
   <div class="container">
     <div class="header">
       <h2>Work Board</h2>
-      <ion-button color="success" fill="outline" (click)="addTodo()" class="submit">Export</ion-button>
+      <ion-button color="success" fill="outline" (click)="downloadCsv()" class="submit">Export</ion-button>
     </div>
 
     <!-- form -->
@@ -31,17 +31,17 @@
 
     <!-- 3forms -->
     <div class="pills_container">
-      <div class="status__" *ngFor="let st of statusArr">
-        
+      <div (click)="changeNavStatus(st)" class="pill" *ngFor="let st of statusArrNav" [ngClass]="activeNavBtn==st?'active_nav_btn':''">
+        {{st}}
       </div>
     </div>
-
 
   </div>
 
 
 
   <div class="task_container">
+    <!-- <div class="task_" *ngFor="let todo of tempArr" [ngClass]="todo.priorityLevel"> -->
     <div class="task_" *ngFor="let todo of allTodos$ | async" [ngClass]="todo.priorityLevel">
       <div class="task_todo">
         <div class="title"><span>o</span> {{todo.title}}</div>

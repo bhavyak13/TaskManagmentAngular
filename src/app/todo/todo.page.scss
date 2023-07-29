@@ -90,6 +90,33 @@
   overflow: auto;
 }
 
+
+.pills_container{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  width: 40vw;
+  justify-content: space-between;
+  padding: 10px 20px;
+  padding-bottom: 0;
+  text-transform: uppercase;
+  margin-top: 0.5rem;
+  
+}
+
+.pill{
+  border: 1px solid white;
+  border-radius: 20px;
+  padding: 0.42rem 0.78rem;
+  font-size: 0.84rem;
+  cursor: pointer;
+}
+
+.active_nav_btn{
+  color:#171723;
+  background-color: white;
+}
+
 .task_container {
   display: flex;
   flex-direction: column;

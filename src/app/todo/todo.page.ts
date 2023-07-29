@@ -12,6 +12,8 @@ import { saveAs } from 'file-saver'
   styleUrls: ['todo.page.scss'],
 })
 export class TodoPage implements OnInit {
+
+  // variables..
   public allTodos$ = this.store.select(selectAllTodos);
   obj: Todo = {
     title: '',
@@ -20,11 +22,17 @@ export class TodoPage implements OnInit {
     priorityLevel: 'low',
   };
   public showSystem: boolean = false;
+  public activeNavBtn: string = 'all';
+  public statusArr: string[] = ['todo', 'pending', 'completed'];
+  public statusArrNav: string[] = ['all', 'todo', 'pending', 'completed'];
+  constructor(private store: Store) { }
+  public tempArr: Todo[] = []
+
+
+  // functions..
   toggleSystem() {
     this.showSystem = !this.showSystem;
   }
-  public statusArr: string[] = ['todo', 'pending', 'completed'];
-  constructor(private store: Store) { }
   ngOnInit() {
     this.store.dispatch(loadTodos());
   }
@@ -48,8 +56,6 @@ export class TodoPage implements OnInit {
   removeTodo(todo: Todo) {
     this.store.dispatch(removeTodo({ id: todo.id }));
   }
-
-
   downloadFile(data: any) {
     const replacer = (key, value) => (value === null ? '' : value); // specify how you want to handle null values here
     const header = Object.keys(data[0]);
@@ -72,23 +78,22 @@ export class TodoPage implements OnInit {
     a.remove();
   }
 
-  public globalData = [
-    {
-      name: 'User 1',
-      age: 33,
-      average: 98,
-      approved: true,
-      description: 'I am active blogger and Author.',
-    }
-  ]
-  // public headers = [
-  //   'name', 'age',
-  //   'average',
-  //   'approved',
-  //   'description'
-  // ]
+  changeNavStatus(status: string) {
+    this.activeNavBtn = status;
+    // let data: any;
+    // this.allTodos$.forEach(e => {
+    //   data = e;
+    // })
+    // this.tempArr = [];
+    // data.map(e => {
+    //   if (e.status == status || status=='all') this.tempArr.push(e)
+    // })
+  }
+
+
   downloadCsv() {
     let data: any;
+    console.log(this.allTodos$);
     this.allTodos$.forEach(e => {
       data = e;
     })
@@ -96,22 +101,3 @@ export class TodoPage implements OnInit {
   }
 
 }
-
- // <button (click)="downloadCsv()" >click</button>
-  //
-
-
- // this.allTodos$.map((t: Todo[])=>{
-  //   this.activeTags = [];
-  //   this.inactiveTags=[];
-  //   t.forEach(e => {
-  //    if (e.status=='active')
-  //    {
-  //      this.activeTags.push(e);
-  //    }
-  //    else if (e.status=='inactive')
-  //    {
-  //      this.inactiveTags.push(e);
-  //    }
-  //   });
-  // });
