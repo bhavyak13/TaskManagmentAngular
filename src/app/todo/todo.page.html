@@ -20,10 +20,6 @@
 
 
   <div class="boxes">
-    <div class="box">
-      <div class="box_heading">
-        TO-DO
-      </div>
       <div class="task_" *ngFor="let todo of allTodos$ | async">
         <div>{{todo.title}}</div>
         <div>{{todo.description}}</div>
@@ -35,7 +31,6 @@
           <div class="status" *ngFor="let s of statusArr">
             <div *ngIf="s!=todo.status" (click)="ChangeStatus(todo,s)"> {{s}} </div>
           </div>
-        </div>
       </div>
     </div>
 
