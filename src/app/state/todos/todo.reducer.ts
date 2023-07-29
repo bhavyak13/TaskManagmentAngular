@@ -2,6 +2,7 @@ import { createReducer, on } from '@ngrx/store';
 import {
   addTodo,
   removeTodo,
+  changeStatusTodo,
   loadTodos,
   loadTodosSuccess,
   loadTodosFailure,
@@ -34,7 +35,7 @@ export const todoReducer = createReducer(
       description,
       dueDate,
       priorityLevel,
-      status:'todo',
+      status: 'todo',
     }],
   })),
   // Remove the todo from the todos array
@@ -42,6 +43,26 @@ export const todoReducer = createReducer(
     ...state,
     todos: state.todos.filter((todo) => todo.id !== id),
   })),
+
+  on(changeStatusTodo, (state, { id, status }) => ({
+    ...state,
+    todos: state.todos.map((todo) => {
+      if (todo.id == id) {
+        let t: Todo = {
+          id: todo.id,
+          title: todo.title,
+          description: todo.description,
+          dueDate: todo.dueDate,
+          priorityLevel: todo.priorityLevel,
+          status,
+        };
+        // t.status = status;
+        // console.log("PRINT ", status)
+        return t;
+      } else return todo;
+    }),
+  })),
+
   // Trigger loading the todos
   on(loadTodos, (state) => ({ ...state, status: 'loading' })),
   // Handle successfully loaded todos

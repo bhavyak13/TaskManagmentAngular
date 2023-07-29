@@ -3,6 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import {
   addTodo,
   removeTodo,
+  changeStatusTodo,
   loadTodos,
   loadTodosSuccess,
   loadTodosFailure,
@@ -42,7 +43,7 @@ export class TodoEffects {
   saveTodos$ = createEffect(
     () =>
       this.actions$.pipe(
-        ofType(addTodo, removeTodo),
+        ofType(addTodo, removeTodo,changeStatusTodo),
         withLatestFrom(this.store.select(selectAllTodos)),
         switchMap(([action, todos]) => from(this.todoService.saveTodos(todos)))
       ),

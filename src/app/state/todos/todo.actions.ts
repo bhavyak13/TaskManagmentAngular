@@ -15,6 +15,10 @@ export const removeTodo = createAction(
   '[Todo Page] Remove Todo',
   props<{ id: string }>()
 );
+export const changeStatusTodo = createAction(
+  '[Todo Page] Change Status Todo',
+  props<{ id: string, status: string }>()
+);
 
 export const loadTodos = createAction('[Todo Page] Load Todos');
 

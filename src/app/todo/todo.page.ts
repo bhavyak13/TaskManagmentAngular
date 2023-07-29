@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { addTodo, removeTodo, loadTodos } from '../state/todos/todo.actions';
+import { addTodo, removeTodo, loadTodos, changeStatusTodo } from '../state/todos/todo.actions';
 import { selectAllTodos } from '../state/todos/todo.selectors';
 import { Todo } from './todo.model';
 
@@ -20,6 +20,8 @@ export class TodoPage implements OnInit {
     priorityLevel: 'low',
   };
 
+  public statusArr: string[] = ['todo', 'pending', 'completed'];
+
   // this.allTodos$.map((t: Todo[])=>{
   //   this.activeTags = [];
   //   this.inactiveTags=[];
@@ -34,7 +36,7 @@ export class TodoPage implements OnInit {
   //    }
   //   });
   // });
-  
+
 
   constructor(private store: Store) { }
 
@@ -42,6 +44,9 @@ export class TodoPage implements OnInit {
     this.store.dispatch(loadTodos());
   }
 
+  ChangeStatus(todo: Todo, status: string) {
+    this.store.dispatch(changeStatusTodo({ id: todo.id, status }));
+  }
   addTodo() {
     if (!this.obj.title || !this.obj.description || !this.obj.dueDate) {
       alert("Please fill all details!!");
@@ -51,7 +56,7 @@ export class TodoPage implements OnInit {
     this.obj = {
       title: '',
       description: '',
-      dueDate:'',
+      dueDate: '',
       priorityLevel: 'low',
     };
   }

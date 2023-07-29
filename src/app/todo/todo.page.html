@@ -1,6 +1,7 @@
-<ion-content>
+<div class="rott_">
+
   <div class="container">
-    <h2>Let's get things done!</h2>
+    <h2>Work Board</h2>
     <div>Title</div>
     <input [(ngModel)]="obj.title" />
     <div>Description</div>
@@ -13,48 +14,31 @@
       <option value="mid">mid</option>
       <option value="high">high</option>
     </select>
+    <ion-button color="success" fill="outline" (click)="addTodo()">Add Task</ion-button>
 
-    <ion-button color="success" fill="outline" (click)="addTodo()">Add Todo</ion-button>
-
-    <ion-list lines="none">
-
-      <div> TO-DO </div>
-      <div button *ngFor="let todo of allTodos$ | async">
-        <!-- <div *ngIf="todo.status=='todo'" [ngClass]="[todo.status=='todo'?'':'hide-it']"> -->
-        <div *ngIf="todo.status=='todo'">
-          <div>{{todo.title}}</div>
-          <div>{{todo.description}}</div>
-          <div>{{todo.dueDate}}</div>
-          <div>{{todo.priorityLevel}}</div>
-          <!-- <div (click)="editTodo(todo)"> edit </div> -->
-          <div (click)="removeTodo(todo)"> {{'X'}} </div>
-        </div>
-      </div>
-
-
-      <div> Pending </div>
-      <div (click)="removeTodo(todo)" button *ngFor="let todo of allTodos$ | async">
-        <div *ngIf="todo.status=='pending'" [ngClass]="[todo.status=='pending'?'':'hide-it']">
-          <div>{{todo.title}}</div>
-          <div>{{todo.description}}</div>
-          <div>{{todo.dueDate}}</div>
-          <div>{{todo.priorityLevel}}</div>
-          <div (click)="removeTodo(todo)"> {{'X'}} </div>
-
-        </div>
-      </div>
-
-
-      <div> Completed </div>
-      <div (click)="removeTodo(todo)" button *ngFor="let todo of allTodos$ | async">
-        <div *ngIf="todo.status=='completed'" [ngClass]="[todo.status=='completed'?'':'hide-it']">
-          <div>{{todo.title}}</div>
-          <div>{{todo.description}}</div>
-          <div>{{todo.dueDate}}</div>
-          <div>{{todo.priorityLevel}}</div>
-          <div (click)="removeTodo(todo)"> {{'X'}} </div>
-        </div>
-      </div>
-    </ion-list>
   </div>
-</ion-content>
+
+
+  <div class="boxes">
+    <div class="box">
+      <div class="box_heading">
+        TO-DO
+      </div>
+      <div class="task_" *ngFor="let todo of allTodos$ | async">
+        <div>{{todo.title}}</div>
+        <div>{{todo.description}}</div>
+        <div>{{todo.dueDate}}</div>
+        <div>{{todo.priorityLevel}}</div>
+        <div>{{todo.status}}</div>
+        <div (click)="removeTodo(todo)"> {{'X'}} </div>
+        <div class="status_">
+          <div class="status" *ngFor="let s of statusArr">
+            <div *ngIf="s!=todo.status" (click)="ChangeStatus(todo,s)"> {{s}} </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
